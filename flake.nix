@@ -77,23 +77,13 @@
             source "${self}/config.env"
             set +a
 
-            if [ -n "''${WASM_FILE:-}" ] && [ -f "$WASM_DIR/$WASM_FILE" ]; then
-              cp "$WASM_DIR/$WASM_FILE" "$out/"
-            else
-              # Otherwise, copy all wasm files that were produced
-              WASM_COUNT=$(ls -1 "$WASM_DIR"/*.wasm 2>/dev/null | wc -l)
-              if [ "$WASM_COUNT" -eq 0 ]; then
-                echo "ERROR: no .wasm files produced in $WASM_DIR" >&2
-                exit 1
-              fi
-              cp "$WASM_DIR"/*.wasm "$out/"
+            cp "$WASM_DIR/$WASM_FILE" "$out/"
 
-              #Minify and save to result
-              esbuild "js/$MQ_JS_BUNDLE" \
-              --minify \
-              --bundle=false \
-              --outfile="$out/$MQ_JS_BUNDLE"
-            fi
+            #Minify and save to result
+            esbuild js/"$MQ_JS_BUNDLE" \
+            --minify \
+            --bundle=false \
+            --outfile="$out/$MQ_JS_BUNDLE"
 
             # Render index.html from html/index.html using config.env
             ${renderHtml}
