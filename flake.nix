@@ -81,7 +81,7 @@
             set +a
 
             cp "$WASM_DIR/$WASM_FILE" "$out/"
-            wasm-opt -Oz "$out/$WASM_FILE" -o "$out/$WASM_FILE"
+            wasm-opt -O3 "$out/$WASM_FILE" -o "$out/$WASM_FILE"
 
             #Minify and save to result
             esbuild js/"$MQ_JS_BUNDLE" \
